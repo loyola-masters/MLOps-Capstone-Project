@@ -4,8 +4,23 @@ To avoid compatibility issues, this is the version of scikt-learn to install: `s
 ```
 pip install -r requirements.txt
 
-uvicorn main:app --host 0.0.0.0--port 80
+uvicorn main:app --host 0.0.0.0 --port 80
 ```
+Find Swagger docs at `http://127.0.0.1/docs`
+
+
+IN HUGGINGFACE ENVIRONMENT, where no version was specified (most recent versions on April 2025):
+```
+fastapi==0.115.12
+uvicorn==0.34.0
+scikit-learn==1.6.1
+joblib==1.4.2
+numpy==2.0.2
+huggingface-hub==0.30.1
+datasets==3.5.0
+gradio=4.44.1
+```
+Backend FastAPI works as expected
 
 ---
 
