@@ -1,3 +1,14 @@
+
+## Running app iris
+To avoid compatibility issues, this is the version of scikt-learn to install: `scikit-learn==1.4.2`
+```
+pip install -r requirements.txt
+
+uvicorn main:app --host 0.0.0.0--port 80
+```
+
+---
+
 ## Train the mode
 This generates the output file `iris_model.joblib` that will be used by the API to serve predictions:
 ```python

@@ -61,5 +61,6 @@ for i in range(num_predictions):
 
 # -------------------------------------------------------------------
 # 7. Save the trained model to file
-joblib.dump(model, "iris_model_.joblib")
-logger.info("Model saved to iris_model.joblib")
+model_name = "iris_model.joblib"
+joblib.dump(model, "iris_model.joblib")
+logger.info("Model saved to ", model_name)
