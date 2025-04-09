@@ -1,5 +1,5 @@
 # Deploying a Machine Learning Application
-We will use the Iris dataset and model that we developed in the previous session, documented in this Github repository:
+We will use the Iris model we hosted in **HuggingFace Hub**. We developed it in the previous session, as documented Github repository:
 - https://github.com/loyola-masters/HuggingFaceHub-Quick-Start
 
 ## Running Iris backend app
@@ -32,12 +32,27 @@ uvicorn main:app --host 0.0.0.0 --port 80
 ```
 Find the Swagger documentation of the API at `http://127.0.0.1/docs`
 
-Backend FastAPI works as expected
+#### How to test the Iris prediction endpoint
+Send a POST request to `http://127.0.0.1:80/predict` with JSON body, for example:
+   ```json
+   {
+     "SepalLengthCm": 5.1,
+     "SepalWidthCm": 3.5,
+     "PetalLengthCm": 1.4,
+     "PetalWidthCm": 0.2
+   }
+   ```
+   You can do it via Swagger interface at [http://127.0.0.1:8001/docs](http://127.0.0.1:8001/docs), or with a tool like `curl` or Postman. The response will look like:
+   ```json
+   {
+     "predicted_species": "iris-setosa"
+   }
+   ```
 
 ## Running frontend app Iris (Gradio)
 Run the gradio app:
 ```bash
-python .\frontend-iris\gradio_app.py
+python ./frontend-iris/gradio_app.py
 ```
 This block of the script is the responsible of getting the prediction from the API:
 ```python
@@ -62,21 +77,19 @@ This block of the script is the responsible of getting the prediction from the A
    ```
 2. **Run** a container from that image:
    ```bash
-   docker run -d -p 8001:80 --name fastapi-iris-app fastapi-iris
+   docker run -d -p 8001:80 --name backend-iris-app backend-iris
    ```
-3. Test at [http://127.0.0.1:8001](http://127.0.0.1:8001).
+The last line in the `Dockerfile` provides the command that is executed when running the container:
+```Dockerfile
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+```
+This command is the same than running from the command line in the host: `uvicorn main:app --host 0.0.0.0 --port 80`
 
-Use the above commands on your system where Docker is installed and configured.
 
-(This is done by Docker) Run the FastAPI server (e.g., `uvicorn main:app --reload`) and then send a POST request to `/predict` with the Iris flower measurements to get a prediction.
+3. Test that the API is up at [http://127.0.0.1:8001](http://127.0.0.1:8001)
 
 #### How to test the Iris prediction endpoint
-
-1. Run the server:
-   ```bash
-   uvicorn main:app --reload
-   ```
-2. Send a POST request to `http://127.0.0.1:8001/predict` with JSON body, for example:
+Send a POST request to `http://127.0.0.1:8001/predict` with JSON body, for example:
    ```json
    {
      "SepalLengthCm": 5.1,
@@ -85,14 +98,14 @@ Use the above commands on your system where Docker is installed and configured.
      "PetalWidthCm": 0.2
    }
    ```
-   You can test this via [http://127.0.0.1:8001/docs](http://127.0.0.1:8001/docs) in your browser or with a tool like `curl` or Postman. The response will look like:
+   You can test this via the Swagger interface at [http://127.0.0.1:8001/docs](http://127.0.0.1:8001/docs) or with a tool like `curl` or Postman. The response will look like:
    ```json
    {
      "predicted_species": "iris-setosa"
    }
    ```
 
-   **Using Powershell**
+Using Powershell:
 ```powershell
    Invoke-RestMethod `
   -Uri http://127.0.0.1:8001/predict `

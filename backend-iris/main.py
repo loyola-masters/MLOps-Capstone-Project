@@ -7,12 +7,14 @@ from pydantic import BaseModel
 import huggingface_hub
 from huggingface_hub import hf_hub_download
 
-huggingface_hub.login(token = 'YOUR_TOKEN')
+# huggingface_hub.login(token = 'YOUR_TOKEN')
+huggingface_hub.login(token = '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')
 
 # Using model from Hugging Face Hub: https://huggingface.co/brjapon/iris-dt
 # Accompanying dataset is hosted in Hugging Face under 'brjapon/iris'
+model_joblib="iris_dt.joblib"
 model_path = hf_hub_download(repo_id="brjapon/iris-dt",
-                             filename="iris_dt.joblib",
+                             filename=model_joblib,
                              repo_type="model")
 
 model = joblib.load(model_path)
@@ -27,7 +29,7 @@ logger = logging.getLogger(__name__)
 logger.info(f"Model downloaded from: {model}")
 
 # Uncomment the following lines to load the model from a local file instead
-logger.info("Loading the pre-trained Iris model from file: iris_model.joblib")
+logger.info("Loading the pre-trained Iris model from file: ", model_joblib)
 #model = joblib.load("iris_model.joblib")
 logger.info("Model loaded successfully")
 
